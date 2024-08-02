@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 import Link from "next/link";
 import Image from "next/image";
+import { SignOutButton, useUser } from "@clerk/nextjs";
 
 const styles = {
   link: "text-base font-medium text-black transition-all duration-200 hover:text-blue-600 focus:text-blue-600",
@@ -14,6 +15,7 @@ const styles = {
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const {user}=useUser();
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -55,9 +57,11 @@ const Navbar = () => {
             </Link>
           </div>
 
-          <Link href="#" className={styles.joinButton} role="button">
+          {user?<div className={styles.joinButton} role="button">
+            <SignOutButton/>
+          </div>:<Link href="/sign-in" className={styles.joinButton} role="button">
             Get started now
-          </Link>
+          </Link>}
         </nav>
 
         {/* xs to lg */}
@@ -81,9 +85,11 @@ const Navbar = () => {
             </div>
 
             <div className="px-6  mt-6">
-              <Link href="#" className={styles.joinButton} role="button">
-                Get started now
-              </Link>
+            {user?<div className={styles.joinButton} role="button">
+            <SignOutButton/>
+          </div>:<Link href="/sign-in" className={styles.joinButton} role="button">
+            Get started now
+          </Link>}
             </div>
           </nav>
         )}
